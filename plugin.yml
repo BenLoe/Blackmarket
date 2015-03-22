@@ -1,0 +1,6 @@
+name: Blackmarket
+main: me.BenLoe.Blackmarket.Main
+version: 1.0
+description: >
+             Blackmarket plugin.
+commands:                         
