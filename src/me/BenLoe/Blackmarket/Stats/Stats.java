@@ -1,6 +1,9 @@
 package me.BenLoe.Blackmarket.Stats;
 
+import java.util.UUID;
+
 import me.BenLoe.Blackmarket.Files;
+import me.BenLoe.Blackmarket.UUIDFetcher;
 
 public class Stats {
 
@@ -16,13 +19,26 @@ public class Stats {
 	public static Stats getStats(String p){
 		int shards = 0;
 		int eshards = 0;
-		if (Files.getDataFile().contains("Players." + p + ".shards")){
-			shards = Files.getDataFile().getInt("Players." + p + ".shards");
+		UUID uuid = new UUIDFetcher(p).callForOne();
+		if (Files.getDataFile().contains("Players." + uuid + ".shards")){
+			shards = Files.getDataFile().getInt("Players." + uuid + ".shards");
 		}
-		if (Files.getDataFile().contains("Players." + p + ".eshards")){
-			eshards = Files.getDataFile().getInt("Players." + p + ".eshards");
+		if (Files.getDataFile().contains("Players." + uuid + ".eshards")){
+			eshards = Files.getDataFile().getInt("Players." + uuid + ".eshards");
 		}
 		return new Stats(shards, eshards, p);
+	}
+	
+	public static Stats getStats(UUID uuid){
+		int shards = 0;
+		int eshards = 0;
+		if (Files.getDataFile().contains("Players." + uuid + ".shards")){
+			shards = Files.getDataFile().getInt("Players." + uuid + ".shards");
+		}
+		if (Files.getDataFile().contains("Players." + uuid + ".eshards")){
+			eshards = Files.getDataFile().getInt("Players." + uuid + ".eshards");
+		}
+		return new Stats(shards, eshards, org.Prison.Main.Files.getDataFile().getString("Players." + uuid + ".Name"));
 	}
 	
 	public int getShards(){
@@ -34,37 +50,43 @@ public class Stats {
 	}
 	
 	public Stats setShards(int i){
-		Files.getDataFile().set("Players." + p + ".shards", i);
+		UUID uuid = new UUIDFetcher(p).callForOne();
+		Files.getDataFile().set("Players." + uuid + ".shards", i);
 		Files.saveDataFile();
 		return new Stats(i, eshards, p);
 	}
 	
 	public Stats setEnchantedShards(int i){
-		Files.getDataFile().set("Players." + p + ".eshards", i);
+		UUID uuid = new UUIDFetcher(p).callForOne();
+		Files.getDataFile().set("Players." + uuid + ".eshards", i);
 		Files.saveDataFile();
 		return new Stats(shards, i, p);
 	}
 	
 	public Stats addShards(int i){
-		Files.getDataFile().set("Players." + p + ".shards", shards + i);
+		UUID uuid = new UUIDFetcher(p).callForOne();
+		Files.getDataFile().set("Players." + uuid + ".shards", shards + i);
 		Files.saveDataFile();
 		return new Stats(shards + i, eshards, p);
 	}
 	
 	public Stats addEnchantedShards(int i){
-		Files.getDataFile().set("Players." + p + ".eshards", eshards + i);
+		UUID uuid = new UUIDFetcher(p).callForOne();
+		Files.getDataFile().set("Players." + uuid + ".eshards", eshards + i);
 		Files.saveDataFile();
 		return new Stats(shards, eshards + i, p);
 	}
 	
 	public Stats removeShards(int i){
-		Files.getDataFile().set("Players." + p + ".shards", shards - i);
+		UUID uuid = new UUIDFetcher(p).callForOne();
+		Files.getDataFile().set("Players." + uuid + ".shards", shards - i);
 		Files.saveDataFile();
 		return new Stats(shards - i, eshards, p);
 	}
 	
 	public Stats removeEnchantedShards(int i){
-		Files.getDataFile().set("Players." + p + ".eshards", eshards - i);
+		UUID uuid = new UUIDFetcher(p).callForOne();
+		Files.getDataFile().set("Players." + uuid + ".eshards", eshards - i);
 		Files.saveDataFile();
 		return new Stats(shards, eshards - i, p);
 	}
